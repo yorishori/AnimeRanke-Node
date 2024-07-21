@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
