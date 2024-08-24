@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.1.slim.min.js"></script>
+</head>
+<body>
+    <script>
+        function runGetMethodTest(){
+            fetch("/getNumber", {
+                method:"GET",
+                headers: {"Content-Type":"application/json"}
+            }).then((res) => {
+                if(!res.ok)
+                    throw new Error("Couldn't fetch request!");
+
+                return res.json();
+            }).then((data) => {
+                let button = $('#button')[0];
+                
+                button.innerHTML = data.value;
+            }).catch( (error) => {
+                alert(error);
+            });
+        }
+    </script>
+    <button id="button" onclick="runGetMethodTest()"></button>    
+</body>
+</html>
