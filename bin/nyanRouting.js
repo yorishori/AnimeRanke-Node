@@ -22,7 +22,7 @@ function nyanReq(req){
 
 	switch(req.method){
 		case "GET":
-			nyanResponse = routeGet(req.url);break;
+			routeGet(req.url, nyanResponse);break;
 		case "POST":
 			//nyanResponse = routePost(req);break;
 		default:
@@ -44,51 +44,40 @@ function nyanReq(req){
  *          |   --opts (optional)
  *          --val
  */
-function routeGet(url){
-	let nyanResponse = {
-		head: {
-			status: undefined,
-			opts: undefined
-		},
-		val: undefined
-	};
-
+function routeGet(url, nyanResponse){
 	if(url === "/"){
-		try{
-			nyanResponse.head.status = 200;
-			nyanResponse.head.opts = {'Content-Type':'text/html'};
-			nyanResponse.val = fs.readFileSync("static/html/index.html");
-		}catch(err){
-			nyanResponse.head.status = 404;
-			nyanResponse.val = "Index Not Found :( ";
-			console.log(err);
-		}
+		getFile("static/html/index.html", 'text/html', nyanResponse);
 	}
 	
-	if(url === "/getNumber"){
-		nyanResponse.head.status = 200;
-		nyanResponse.head.opts = {'Content-Type':'application/json'};
-		nyanResponse.val = `{"value":"${Math.random().toString()}"}`;
+	if(url === "/style.css"){
+		getFile("static/css/style.css", 'text/css', nyanResponse);
 	}
-	
+
 	if(url === "/jquery-3.7.1.slim.min.js"){
-		try{
-			nyanResponse.head.status = 200;
-			nyanResponse.head.opts = {'Content-Type':'text/js'};
-			nyanResponse.val = fs.readFileSync("lib/jquery-3.7.1.slim.min.js");
-		}catch(err){
-			nyanResponse.head.status = 404;
-			nyanResponse.val = "JQuery Library Not Found :( ";
-			console.log(err);
-		}
+		getFile("lib/jquery-3.7.1.slim.min.js", 'text/javascript', nyanResponse);
+	}
+
+	if(url === "/index.js"){
+		getFile("static/js/index.js", 'text/javascript', nyanResponse);
 	}
 
 	if(!nyanResponse){
 		nyanResponse.head.status = 404;
 		nyanResponse.val = "Content not found. Unidentified URL in request.";
 	}
-	
-	return nyanResponse;
+}
+
+
+function getFile(file, type, nyanResponse){
+	try{
+		nyanResponse.head.status = 200;
+		nyanResponse.head.opts = {'Content-Type':type};
+		nyanResponse.val = fs.readFileSync(file);
+	}catch(err){
+		nyanResponse.head.status = 404;
+		nyanResponse.val = `"${file}" Not Found :( `;
+		console.log(err);
+	}
 }
 
 exports.nyanReq = nyanReq;

@@ -2,6 +2,7 @@ const https = require('node:http');
 const fs = require('node:fs');
 const nyan = require('./nyanRouting.js');
 
+// Set hostname and port
 const hostname = 'localhost';
 const port = 1998;
 
