@@ -1,5 +1,6 @@
 const https = require("node:http");
 const fs = require("node:fs");
+const nyaDB = require("./nyanDataBase.js");
 
 
 /*===============================
@@ -45,13 +46,13 @@ function nyanReq(req){
 			default:
 				res.head.status = 501;
 				res.val = `HTTP Method "${req.method}" not implemeted`;
-				console.log(`Client requested unimplemented method: ${req.method}`);
+				console.log(`Client requested unimplemented method: "${req.method}"`);
 				break;
 		}
 	}catch(err){
 		res.head.status = 404;
 		res.val = `"Something went wrong in routing HTTP request: ${err}`;
-		console.log(err);
+		console.log(`Internal ERROR [nyanRouting]: ${err}`);
 	}finally{	
 		return res;
 	}
@@ -66,12 +67,18 @@ function nyanGet(res, vPath){
 	for(i=0; i<files.static.length; i++){
 		let e = files.static[i];
 		if (e.vpath===vPath){
-			getFile(res, e.path, e.type);
+			if(e.type==="text/html" && !nyaDB.nyActive()){
+				nyanGetErr(res, files.err.db);
+				console.log(`Internal ERROR [nyanRouting]: Database unavailble. Client requested "${e.vPath}" but will be delivered error page instead.`);
+			}else{	
+				getFile(res, e.path, e.type);
+			}
 			return;
 		}
 	}
 
 	nyanGetErr(res, files.err.nyan);
+	console.log(`Client requested a site that isn't in the list accepeted paths: "${vPath}"`);
 	return;
 }
 

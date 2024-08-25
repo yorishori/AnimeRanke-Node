@@ -4,5 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/nyanMain.js"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
   }
 }

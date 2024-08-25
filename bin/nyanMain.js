@@ -6,6 +6,14 @@ const nyaR = require('./nyanRouting.js');
 const hostname = 'localhost';
 const port = 1998;
 
+// Check database
+/*nyanDB.initialize((nyan) =>{
+	if(nyan)
+
+});*/
+
+// 
+
 //Create server and listen
 const nyanServer = https.createServer((req,res) => {
 
