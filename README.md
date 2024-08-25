@@ -1,6 +1,6 @@
 # Anime Ranker V2 (Node Edition)
 
-> The first version used raw HTML and JS executing on the browser. This had a lot of limitations in the things is could do; specially on backend stuff, like file managment and saving/manipulating information. This new version has a back-end and should be better suited for this project.
+> The first version used raw HTML and JS executing on the browser. This had a lot of limitations in the things it could do, specially on backend stuff; like file managment and saving/manipulating information. This new version has a back-end and should be better suited for this project.
 
 ## Objectives
 - Learn about the server-client model. HTTP methods
