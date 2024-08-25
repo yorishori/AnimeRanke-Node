@@ -1,14 +1,15 @@
 const https = require('node:http');
 const fs = require('node:fs');
-const nyan = require('./nyanRouting.js');
+const nyaR = require('./nyanRouting.js');
 
 // Set hostname and port
 const hostname = 'localhost';
 const port = 1998;
 
 //Create server and listen
-const server = https.createServer((req,res) => {
-	nyanRes = nyan.nyanReq(req);
+const nyanServer = https.createServer((req,res) => {
+
+	nyanRes = nyaR.nyanReq(req);
 
 	if(!nyanRes.head.status || !nyanRes.val){
 		res.writeHead(500);
@@ -26,4 +27,3 @@ const server = https.createServer((req,res) => {
 }).listen(port, hostname, () => {
 	console.log(`Listener added at http://${hostname}:${port}/`);
 });
-

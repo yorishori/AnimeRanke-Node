@@ -1,83 +1,105 @@
-const https = require('node:http');
-const fs = require('node:fs');
+const https = require("node:http");
+const fs = require("node:fs");
 
-/**
+
+/*===============================
+=			CONSTANTS			=
+===============================*/
+const files = {
+	static:[
+		// HTML
+		{vpath:"/", path:"static/html/index.html", type:"text/html"},
+		// CSS
+		{vpath:"/style.css", path:"static/css/style.css", type:"text/css"},
+		{vpath:"/index.js", path:"static/js/index.js", type:"text/css"},
+		// JS
+		{vpath:"/jquery.js", path:"lib/jquery-3.7.1.slim.min.js", type:"text/js"}
+
+	],
+	err:{
+		db:{status:503, path:"static/html/err/dberr.html"},
+		nyan:{status:418, path:"static/html/err/nyan.html"},
+	}
+}
+
+
+/*===============================
+=			FUNTIONS			=
+===============================*/
+/** Return the response depending on request
  * 
  * @param {https.IncomingMessage} req http request
- * @returns json variable
- *      nyanResponse
- *          |-head
- *          |   |-status
- *          |   --opts (optional)
- *          --val
+ * @returns json variable {head{status,opts},val};
+ *    
  */
 function nyanReq(req){
-	let nyanResponse= {
-		head: {
-			status: undefined,
-			opts: undefined
-		},
-		val: undefined
-	};
+	let res = {head: {status: undefined,opts: undefined},val: undefined};
+	let vPath = req.url;
+	
+	try{
+		switch(req.method){
+			case "GET":
+				nyanGet(res, vPath);break;
+			case "POST":
+				//routePost(req);break;
+			default:
+				res.head.status = 501;
+				res.val = `HTTP Method "${req.method}" not implemeted`;
+				console.log(`Client requested unimplemented method: ${req.method}`);
+				break;
+		}
+	}catch(err){
+		res.head.status = 404;
+		res.val = `"Something went wrong in routing HTTP request: ${err}`;
+		console.log(err);
+	}finally{	
+		return res;
+	}
+}
 
-	switch(req.method){
-		case "GET":
-			routeGet(req.url, nyanResponse);break;
-		case "POST":
-			//nyanResponse = routePost(req);break;
-		default:
-			nyanResponse.head.status = 501;
-			nyanResponse.val = `HTTP Method "${req.method}" not implemeted`
-			break;
+/** Route from content type of request
+ * 
+ * @param {any}	res reference to custom reponse json (updatable)
+ * @param {string} vPath virtual path from request
+ */
+function nyanGet(res, vPath){
+	for(i=0; i<files.static.length; i++){
+		let e = files.static[i];
+		if (e.vpath===vPath){
+			getFile(res, e.path, e.type);
+			return;
+		}
 	}
 
-	return nyanResponse;
+	nyanGetErr(res, files.err.nyan);
+	return;
+}
+
+/** Return the requested error page
+ * 
+ * @param {any}	res reference to custom reponse json (updatable)
+ * @param {any} errType file error object
+ */
+function nyanGetErr(res, errType){
+	res.head.status = errType.status;
+	res.head.opts = {'Content-Type':"text/html"};
+	res.val = fs.readFileSync(errType.path);
+	return;
 }
 
 /**
  * 
- * @param {string} url request url
- * @returns json variable
- *      nyanResponse
- *          |-head
- *          |   |-status
- *          |   --opts (optional)
- *          --val
+ * @param {any} res reference to custom reponse json (updatable)
+ * @param {string} path physicaḷ relative path to the file
+ * @param {string} type type of file
+ * @returns 
  */
-function routeGet(url, nyanResponse){
-	if(url === "/"){
-		getFile("static/html/index.html", 'text/html', nyanResponse);
-	}
-	
-	if(url === "/style.css"){
-		getFile("static/css/style.css", 'text/css', nyanResponse);
-	}
-
-	if(url === "/jquery-3.7.1.slim.min.js"){
-		getFile("lib/jquery-3.7.1.slim.min.js", 'text/javascript', nyanResponse);
-	}
-
-	if(url === "/index.js"){
-		getFile("static/js/index.js", 'text/javascript', nyanResponse);
-	}
-
-	if(!nyanResponse){
-		nyanResponse.head.status = 404;
-		nyanResponse.val = "Content not found. Unidentified URL in request.";
-	}
+function getFile(res, path, type){
+	res.head.status = 200;
+	res.head.opts = {'Content-Type':type};
+	res.val = fs.readFileSync(path);
+	return;
 }
 
-
-function getFile(file, type, nyanResponse){
-	try{
-		nyanResponse.head.status = 200;
-		nyanResponse.head.opts = {'Content-Type':type};
-		nyanResponse.val = fs.readFileSync(file);
-	}catch(err){
-		nyanResponse.head.status = 404;
-		nyanResponse.val = `"${file}" Not Found :( `;
-		console.log(err);
-	}
-}
-
+// Funtions
 exports.nyanReq = nyanReq;
