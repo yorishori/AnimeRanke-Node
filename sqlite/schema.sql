@@ -1,0 +1,3 @@
+-- Requirements:
+-- Table1: store information about the shows (title, name, img url, etc.) and add a unique id
+-- Table2: store the headers for the saved rankings (filename, object with the tree, object with shows that are left, etc)

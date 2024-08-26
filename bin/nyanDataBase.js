@@ -1,11 +1,16 @@
 const sql = require('sqlite3').verbose();
 
-let DB_INITIALIZED = false;
+const NYAN_DB = "./sqlite/nyan.db";
+let INIT =  false;
 
+
+
+async function nyanInitalize(){
+	
+}
 
 function nyan_Active(){
-    DB_INITIALIZED = !DB_INITIALIZED;
-    return DB_INITIALIZED;
+	return INIT;
 }
 
 
@@ -13,6 +18,7 @@ function nyan_Active(){
 
 
 exports.nyActive = nyan_Active;
+exports.nyanInitalize = nyanInitalize;
 
 
 
