@@ -20,5 +20,5 @@ Initialize the project: ```npm install``` in project directory. <br>
 Then ```node start```, accesible at http://localhost:1998. You can change it in [here].
 
 To create the database:
-1. Create a DB file ```sqlite/nyan.db```. You can put it wherever you like as long as you change the [database js](bin/nyanDataBase.js).
+1. Create a DB file ```sqlite/nyan.db```. You can put it wherever you like as long as you change the [database js](bin/nyanDatabase.js).
 2. Open SQLite Studio and execute [Schema.sql](sqlite/schema.sql).
