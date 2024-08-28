@@ -8,7 +8,7 @@ const hostname = 'localhost';
 const port = 1998;
 
 // Check database
-nyanDB.nyanInitalize();
+nyanDB.nyanTegrity();
 
 //Create server and listen
 const nyanServer = https.createServer((req,res) => {
