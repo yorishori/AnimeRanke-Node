@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Anime Ranker (●'◡'●)</title>
-	<link rel="icon" type="image/png" href="favicon.png">
-	<link rel="stylesheet" href="style.css">
-	<script src="jquery.js"></script>
-	<script src="index.js"></script>
-</head>
-<body>
-	<h1 class="row margin-m" style="margin-bottom: 50px;">Anime Ranker V2</h1>
-	<div class="row">
-		<div class="button" onclick="loadRanker()">New</div>
-		<div class="button">Load</div>
-	</div>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Anime Ranker (●'◡'●)</title>
+		<link rel="icon" type="image/png" href="favicon.png">
+		<link rel="stylesheet" href="style.css">
+		<script src="jquery.js"></script>
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<h1 class="row">Anime Ranker V2</h1>
 
-	<div class="row margin-m selectable">
-		<div id="loads">here is the list of previous saves. Empty if none.</div>
-	</div>
-</body>
+		<div class="row">
+			<div class="column">
+				<label for="animes" class="drop-container" id="dropcontainer">
+					<span class="drop-title">Drop files here</span>
+					or click to browse files
+					<input type="file" id="animes" accept=".csv" required>
+				</label>
+				<div class="button" onclick="newRanker()">Start</div>
+			</div>
+			<div class="column">
+				<div class="margin-bottom">Alternatevly, you can load up a previous session:</diV>
+				<div class="button" onclick="openModal('#prev-sessions');">Load</div>
+			</div>
+		</div>
+
+		<div id="prev-sessions" class="modal">
+			<div class="modal-content">
+				<div class="column">
+					<span class="close right" onclick="closeModal('#prev-sessions');">&times;</span>
+					<div class="column"> this is a test for the modal</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

@@ -1,4 +1,3 @@
-
 async function getJson(path, callback){
 	fetch(path, {
 		method:"GET"
@@ -23,4 +22,25 @@ function loadRanker(){
 
 function newRanker(){
 	
+}
+
+
+function openModal(ID){
+	let modal = $(ID)[0];
+
+	if(modal){
+		modal.style.display = 'block';
+		window.onclick = (evnt) => {
+			if(evnt.target==modal){
+				closeModal(ID);
+				window.onclick = null;
+			}
+		}
+	}
+}
+
+function closeModal(ID){
+	let modal = $(ID)[0];
+	if(modal)
+		modal.style.display = 'none';
 }
