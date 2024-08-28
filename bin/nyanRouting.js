@@ -1,6 +1,6 @@
 const https = require("node:http");
 const fs = require("node:fs");
-const nyaDB = require("./nyanDataBase.js");
+const nyaDB = require("./nyanDatabase.js");
 
 
 /*===============================
@@ -53,7 +53,7 @@ function nyanReq(req){
 	}catch(err){
 		res.head.status = 404;
 		res.val = `Something went wrong with routing your HTTP request :(`;
-		console.log(`Internal ERROR [nyanRouting]: ${err}`);
+		console.error(`Internal ERROR [nyanRouting]: ${err}`);
 	}finally{	
 		return res;
 	}

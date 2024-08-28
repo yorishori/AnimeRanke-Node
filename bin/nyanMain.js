@@ -1,7 +1,7 @@
 const https = require('node:http');
 const fs = require('node:fs');
 const nyaR = require('./nyanRouting.js');
-const nyanDB = require('./nyanDataBase.js');
+const nyanDB = require('./nyanDatabase.js');
 
 // Set hostname and port
 const hostname = 'localhost';
