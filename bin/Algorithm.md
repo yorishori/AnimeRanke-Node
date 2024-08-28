@@ -24,5 +24,6 @@
 
 
 ### Algorithm shortcuts:
-- If array **MBA** greater than 30:
-    - Check if **E** is worse/better than second element. If so go
+- If array **MBA** greater than 10:
+    - Give the option to go to the **MBA** of the second element in toggled **DIR**.
+    - Give the option insert it as the last element of array.
